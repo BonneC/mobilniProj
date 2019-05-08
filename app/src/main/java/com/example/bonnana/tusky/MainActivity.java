@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<TopicList>() {
                          @Override
                          public void onResponse(Call<TopicList> call, Response<TopicList> response) {
-                             String resp = response.body().getTopicArrayList().toString();
+                             String resp = response.body().getTopicArrayList().get(0).getTitle();
                              TextView messageView = findViewById(R.id.message);
                              messageView.setText(resp);
                          }
