@@ -2,20 +2,21 @@ package com.example.bonnana.tusky.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Topic {
+public class Task {
 
     @SerializedName("id")
     private String id;
-    @SerializedName("title")
-    private String title;
+    @SerializedName("name")
+    private String name;
     @SerializedName("description")
     private String description;
 
-    public Topic(String id, String title, String description) {
+    public Task(String id, String name, String description) {
         this.id = id;
-        this.title = title;
+        this.name = name;
         this.description = description;
     }
+
 
     public String getId() {
         return id;
@@ -25,12 +26,12 @@ public class Topic {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

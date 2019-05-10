@@ -9,11 +9,11 @@ public class TopicList {
     @SerializedName("topic_list")
     private ArrayList<Topic> topicList;
 
-    public ArrayList<Topic> getTopicArrayList(){
+    public ArrayList<Topic> getTopicArrayList() {
         return topicList;
     }
 
-    public void setTopicArrayList(ArrayList<Topic> topicArrayList){
+    public void setTopicArrayList(ArrayList<Topic> topicArrayList) {
         this.topicList = topicArrayList;
     }
 }
