@@ -1,15 +1,18 @@
 package com.example.bonnana.tusky;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bonnana.tusky.adapter.CardViewAdapter;
+import com.example.bonnana.tusky.model.Topic;
 import com.example.bonnana.tusky.model.TopicList;
 import com.example.bonnana.tusky.network.RetrofitInstance;
 import com.example.bonnana.tusky.services.TopicServices;
@@ -22,6 +25,27 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
+    private TopicList topicList = new TopicList();
+
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+
+            Topic topic = topicList.getTopicArrayList().get(position);
+            String id = topic.getId();
+
+            callExplicitIntent(id);
+        }
+    };
+
+    public void callExplicitIntent(String id) {
+        Intent intent = new Intent(this, TasksActivity.class);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, id);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
 //                             TextView messageView = findViewById(R.id.message);
 //                             messageView.setText(resp);
 
-                             TopicList topicList = new TopicList();
+
                              topicList.setTopicArrayList(response.body().getTopicArrayList());
 
                              mAdapter = new CardViewAdapter(topicList.getTopicArrayList());
                              recyclerView.setAdapter(mAdapter);
+                             ((CardViewAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
+
                          }
 
 

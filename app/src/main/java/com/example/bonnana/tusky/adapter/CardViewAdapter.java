@@ -2,6 +2,7 @@ package com.example.bonnana.tusky.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -12,16 +13,7 @@ import java.util.ArrayList;
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardViewHolder> {
     private ArrayList<Topic> topics;
-
-    public static class CardViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView textView;
-
-        public CardViewHolder(TextView v) {
-            super(v);
-            textView = v;
-        }
-    }
+    private View.OnClickListener mOnItemClickListener;
 
     public CardViewAdapter(ArrayList<Topic> topics) {
         this.topics = topics;
@@ -47,5 +39,22 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
     @Override
     public int getItemCount() {
         return topics.size();
+    }
+
+    public void setOnItemClickListener(View.OnClickListener itemClickListener) {
+        mOnItemClickListener = itemClickListener;
+    }
+
+    public class CardViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView textView;
+
+        public CardViewHolder(TextView v) {
+            super(v);
+            textView = v;
+
+            textView.setTag(this);
+            textView.setOnClickListener(mOnItemClickListener);
+        }
     }
 }
