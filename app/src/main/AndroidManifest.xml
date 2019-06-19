@@ -21,6 +21,9 @@
         <activity android:name=".TasksActivity">
 
         </activity>
+        <activity android:name=".TaskActivity">
+
+        </activity>
     </application>
 
 </manifest>
