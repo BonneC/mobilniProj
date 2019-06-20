@@ -21,7 +21,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
 
     @Override
     public CardViewAdapter.CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.topic_list_view, parent, false);
 
         CardViewHolder vh = new CardViewHolder(v);
@@ -49,9 +49,9 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
         // each data item is just a string in this case
         public TextView textView;
 
-        public CardViewHolder(TextView v) {
+        public CardViewHolder(View v) {
             super(v);
-            textView = v;
+            textView = v.findViewById(R.id.topic_title);
 
             textView.setTag(this);
             textView.setOnClickListener(mOnItemClickListener);
