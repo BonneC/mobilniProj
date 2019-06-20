@@ -35,7 +35,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.title.setText(tasks.get(position).getName());
-        holder.description.setText(tasks.get(position).getDescription());
 
     }
 
@@ -51,12 +50,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
     public class TasksViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
-        public TextView description;
 
         public TasksViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.task_title);
-            description = v.findViewById(R.id.task_desc);
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);

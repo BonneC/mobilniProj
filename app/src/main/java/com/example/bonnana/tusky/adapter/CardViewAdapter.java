@@ -53,8 +53,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
             super(v);
             textView = v.findViewById(R.id.topic_title);
 
-            textView.setTag(this);
-            textView.setOnClickListener(mOnItemClickListener);
+            v.setTag(this);
+            v.setOnClickListener(mOnItemClickListener);
         }
     }
 }
