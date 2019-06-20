@@ -23,7 +23,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     @NonNull
     @Override
     public TasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.task_list_view, parent, false);
 
         TasksViewHolder vh = new TasksViewHolder(v);
@@ -34,7 +34,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     public void onBindViewHolder(TasksViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText(tasks.get(position).getName());
+        holder.title.setText(tasks.get(position).getName());
+        holder.description.setText(tasks.get(position).getDescription());
 
     }
 
@@ -49,14 +50,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
 
     public class TasksViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView title;
+        public TextView description;
 
-        public TasksViewHolder(TextView v) {
+        public TasksViewHolder(View v) {
             super(v);
-            textView = v;
+            title = v.findViewById(R.id.task_title);
+            description = v.findViewById(R.id.task_desc);
 
-            textView.setTag(this);
-            textView.setOnClickListener(mOnItemClickListener);
+            v.setTag(this);
+            v.setOnClickListener(mOnItemClickListener);
         }
     }
 }
