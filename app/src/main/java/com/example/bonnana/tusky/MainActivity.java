@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -24,65 +25,58 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
     private TopicList topicList = new TopicList();
+    private Toolbar toolbar;
 
-    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
-            int position = viewHolder.getAdapterPosition();
-
-            Topic topic = topicList.getTopicArrayList().get(position);
-            String id = topic.getId();
-
-            callExplicitIntent(id);
-        }
-    };
-
-    public void callExplicitIntent(String id) {
-        Intent intent = new Intent(this, TopicTasksActivity.class);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, id);
-        startActivity(intent);
-    }
+//    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+//            int position = viewHolder.getAdapterPosition();
+//
+//            Topic topic = topicList.getTopicArrayList().get(position);
+//            String id = topic.getId();
+//
+//            callExplicitIntent(id);
+//        }
+//    };
+//
+//    public void callExplicitIntent(String id) {
+//        Intent intent = new Intent(this, TopicTasksActivity.class);
+//        intent.setType("text/plain");
+//        intent.putExtra(Intent.EXTRA_TEXT, id);
+//        startActivity(intent);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.topic_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//
+//        layoutManager = new GridLayoutManager(this, 3);
+//        recyclerView.setLayoutManager(layoutManager);
 
-        layoutManager = new GridLayoutManager(this, 3);
-        recyclerView.setLayoutManager(layoutManager);
+        toolbar = (Toolbar) findViewById(R.id.nav_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        TopicServices service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
+        getTopics();
+    }
 
-        Call<TopicList> call = service.getTopicsData();
+    public void getTopics(){
+        Intent intent = new Intent(this, TopicsActivity.class);
 
-        Log.wtf("URL Called", call.request().url() + "");
+        startActivity(intent);
+    }
 
-        call.enqueue(new Callback<TopicList>() {
-                         @Override
-                         public void onResponse(Call<TopicList> call, Response<TopicList> response) {
-                             String resp = response.body().getTopicArrayList().get(0).getTitle();
-//                             TextView messageView = findViewById(R.id.message);
-//                             messageView.setText(resp);
+    public void getTasks(View view) {
+        Intent intent = new Intent(this, UserTasksActivity.class);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, "1");
+        startActivity(intent);
+    }
 
-
-                             topicList.setTopicArrayList(response.body().getTopicArrayList());
-
-                             mAdapter = new CardViewAdapter(topicList.getTopicArrayList());
-                             recyclerView.setAdapter(mAdapter);
-                             ((CardViewAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
-
-                         }
-
-
-                         @Override
-                         public void onFailure(Call<TopicList> call, Throwable t) {
-                             Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                         }
-                     }
-        );
-
+    public void getTopics(View view) {
+        getTopics();
     }
 }

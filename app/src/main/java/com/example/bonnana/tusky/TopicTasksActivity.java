@@ -51,11 +51,11 @@ public class TopicTasksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        setContentView(R.layout.activity_tasks);
+        setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         int messageText =  Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
 
-        recyclerView = (RecyclerView) findViewById(R.id.task_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
