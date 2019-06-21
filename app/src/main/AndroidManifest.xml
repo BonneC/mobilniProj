@@ -18,12 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TasksActivity">
+        <activity android:name=".TopicTasksActivity">
 
         </activity>
         <activity android:name=".TaskActivity">
 
         </activity>
+        <activity android:name=".UserTasksActivity" />
     </application>
 
 </manifest>

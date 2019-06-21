@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.bonnana.tusky.R;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder> {
     private ArrayList<Task> tasks;
     private View.OnClickListener mOnItemClickListener;
+    private View.OnClickListener buttonListener;
 
     public TasksAdapter(ArrayList<Task> tasks) {
         this.tasks = tasks;
@@ -22,21 +25,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
     @NonNull
     @Override
-    public TasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.task_list_view, parent, false);
-
-        TasksViewHolder vh = new TasksViewHolder(v);
-        return vh;
+    public TasksViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new TasksViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.topic_tasks_view, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(TasksViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
+    public void onBindViewHolder(@NonNull TasksViewHolder holder, int position) {
         holder.title.setText(tasks.get(position).getName());
-
+        holder.btn_add.setTag(position);
     }
+
 
     @Override
     public int getItemCount() {
@@ -47,16 +46,29 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
         mOnItemClickListener = itemClickListener;
     }
 
+    public void setOnButtonClickListener(View.OnClickListener buttonClickListener) {
+        buttonListener = buttonClickListener;
+    }
+
 
     public class TasksViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
+        private TextView title;
+        private Button btn_add;
 
         public TasksViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.task_title);
+            btn_add = v.findViewById(R.id.button_add_task);
+
+
+            //btn_add.setOnClickListener(buttonListener);
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);
+
         }
+
     }
+
+
 }

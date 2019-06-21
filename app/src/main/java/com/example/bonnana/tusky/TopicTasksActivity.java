@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TasksActivity extends AppCompatActivity {
+public class TopicTasksActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
@@ -34,11 +34,12 @@ public class TasksActivity extends AppCompatActivity {
             Task task = taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
-            Toast.makeText(TasksActivity.this, "SUKSES", Toast.LENGTH_LONG).show();
+            Toast.makeText(TopicTasksActivity.this, "SUKSES", Toast.LENGTH_LONG).show();
 
             callExplicitIntent(id);
         }
     };
+
 
     public void callExplicitIntent(String id) {
         Intent intent = new Intent(this, TaskActivity.class);
@@ -81,8 +82,17 @@ public class TasksActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TaskList> call, Throwable t) {
-                Toast.makeText(TasksActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(TopicTasksActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void addTask(View view) {
+        int pos = (Integer) view.getTag();
+
+        Task task = taskList.getTaskArrayList().get(pos);
+        String id = task.getId();
+
+        Toast.makeText(TopicTasksActivity.this, id, Toast.LENGTH_LONG).show();
     }
 }
