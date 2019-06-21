@@ -2,11 +2,16 @@ package com.example.bonnana.tusky;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.bonnana.tusky.adapter.TasksAdapter;
@@ -19,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserTasksActivity extends AppCompatActivity {
+public class UserTasksActivity extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -36,42 +41,57 @@ public class UserTasksActivity extends AppCompatActivity {
             Task task = taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
-            Toast.makeText(UserTasksActivity.this, "SUKSES", Toast.LENGTH_LONG).show();
+            Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
 
             callExplicitIntent(id);
         }
     };
 
     public void callExplicitIntent(String id) {
-        Intent intent = new Intent(this, TaskActivity.class);
+        Intent intent = new Intent(this.getContext(), TaskActivity.class);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, id);
         startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstance) {
-        super.onCreate(savedInstance);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v= inflater.inflate(R.layout.activity_main, container, false);
 
-        Intent intent = getIntent();
-        messageText =  Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         getTasks();
 
-
+        return v;
     }
+
+    //    @Override
+//    protected void onCreate(Bundle savedInstance) {
+//        super.onCreate(savedInstance);
+//        setContentView(R.layout.activity_main);
+//
+//        Intent intent = getIntent();
+//        messageText =  Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
+//
+//        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//
+//        layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        getTasks();
+//
+//
+//    }
 
     public void getTasks(){
         TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
 
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList> call = service.getTasksData(token, messageText);
+        Call<TaskList> call = service.getTasksData(token, 1);
 
         Log.wtf("URL Called", call.request().url() + "");
 
@@ -90,7 +110,7 @@ public class UserTasksActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TaskList> call, Throwable t) {
-                Toast.makeText(UserTasksActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(UserTasksActivity.this.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -101,6 +121,6 @@ public class UserTasksActivity extends AppCompatActivity {
         Task task = taskList.getTaskArrayList().get(pos);
         String id = task.getId();
 
-        Toast.makeText(UserTasksActivity.this, id, Toast.LENGTH_LONG).show();
+        Toast.makeText(UserTasksActivity.this.getContext(), id, Toast.LENGTH_LONG).show();
     }
 }
