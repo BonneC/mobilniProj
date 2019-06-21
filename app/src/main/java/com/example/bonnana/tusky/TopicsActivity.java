@@ -2,12 +2,16 @@ package com.example.bonnana.tusky;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.bonnana.tusky.adapter.CardViewAdapter;
@@ -20,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TopicsActivity extends AppCompatActivity {
+public class TopicsActivity extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
@@ -40,26 +44,41 @@ public class TopicsActivity extends AppCompatActivity {
     };
 
     public void callExplicitIntent(String id) {
-        Intent intent = new Intent(this, TopicTasksActivity.class);
+        Intent intent = new Intent(this.getContext(), TopicTasksActivity.class);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, id);
         startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v= inflater.inflate(R.layout.activity_main, container, false);
 
-        Intent intent = getIntent();
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        layoutManager = new GridLayoutManager(this, 3);
+        layoutManager = new GridLayoutManager(v.getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
         getTopics();
+
+        return v;
     }
+
+    //    @Override
+//    protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+//        Intent intent = getIntent();
+//
+//        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//
+//        layoutManager = new GridLayoutManager(this, 3);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        getTopics();
+//    }
 
     private void getTopics() {
         TopicServices service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
@@ -87,7 +106,7 @@ public class TopicsActivity extends AppCompatActivity {
 
                          @Override
                          public void onFailure(Call<TopicList> call, Throwable t) {
-                             Toast.makeText(TopicsActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                             Toast.makeText(TopicsActivity.this.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                          }
                      }
         );

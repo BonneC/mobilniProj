@@ -7,11 +7,11 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <include
-        layout="@layout/navbar"
-        android:id="@+id/nav_bar">
+    <!--<include-->
+        <!--layout="@layout/navbar"-->
+        <!--android:id="@+id/nav_bar">-->
 
-    </include>
+    <!--</include>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

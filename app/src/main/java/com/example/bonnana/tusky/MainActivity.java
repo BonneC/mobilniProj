@@ -1,6 +1,8 @@
 package com.example.bonnana.tusky;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.example.bonnana.tusky.adapter.CardViewAdapter;
+import com.example.bonnana.tusky.adapter.TabsAdapter;
 import com.example.bonnana.tusky.model.Topic;
 import com.example.bonnana.tusky.model.TopicList;
 import com.example.bonnana.tusky.network.RetrofitInstance;
@@ -26,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private TopicList topicList = new TopicList();
     private Toolbar toolbar;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+
 
 //    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
 //        @Override
@@ -50,33 +57,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        setContentView(R.layout.activity_mainpage);
 //
 //        layoutManager = new GridLayoutManager(this, 3);
 //        recyclerView.setLayoutManager(layoutManager);
 
-        toolbar = (Toolbar) findViewById(R.id.nav_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        toolbar = (Toolbar) findViewById(R.id.nav_bar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        tabLayout = findViewById(R.id.tabs);
+        viewPager = findViewById(R.id.viewpager);
+        TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TopicsActivity(), "Topics");
+        adapter.addFragment(new TopicsActivity(), "Topics2");
 
-        getTopics();
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
-    public void getTopics(){
-        Intent intent = new Intent(this, TopicsActivity.class);
-
-        startActivity(intent);
-    }
-
-    public void getTasks(View view) {
-        Intent intent = new Intent(this, UserTasksActivity.class);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, "1");
-        startActivity(intent);
-    }
-
-    public void getTopics(View view) {
-        getTopics();
-    }
+//    public void getTopics(){
+//        Intent intent = new Intent(this, TopicsActivity.class);
+//
+//        startActivity(intent);
+//    }
+//
+//    public void getTasks(View view) {
+//        Intent intent = new Intent(this, UserTasksActivity.class);
+//        intent.setType("text/plain");
+//        intent.putExtra(Intent.EXTRA_TEXT, "1");
+//        startActivity(intent);
+//    }
+//
+//    public void getTopics(View view) {
+//        getTopics();
+//    }
 }
