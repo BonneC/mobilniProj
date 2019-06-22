@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.bonnana.tusky.adapter.TasksAdapter;
+import com.example.bonnana.tusky.adapter.TopicTasksAdapter;
+import com.example.bonnana.tusky.adapter.UserTasksAdapter;
 import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.TaskList;
 import com.example.bonnana.tusky.network.RetrofitInstance;
@@ -103,9 +103,9 @@ public class UserTasksActivity extends Fragment {
 
                 taskList.setTaskArrayList(response.body().getTaskArrayList());
 
-                mAdapter = new TasksAdapter(taskList.getTaskArrayList());
+                mAdapter = new UserTasksAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);
-                ((TasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
+                ((UserTasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
             }
 
             @Override

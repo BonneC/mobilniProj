@@ -3,26 +3,22 @@ package com.example.bonnana.tusky.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bonnana.tusky.R;
 import com.example.bonnana.tusky.model.Task;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
+public class TopicTaskAdapter extends RecyclerView.Adapter<TopicTaskAdapter.TaskViewHolder> {
     private ArrayList<Task> tasks;
     private Context context;
     private View.OnClickListener mOnItemClickListener;
 
-    public TaskAdapter(ArrayList<Task> tasks) {
+    public TopicTaskAdapter(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
 
@@ -32,7 +28,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.task_view, parent, false);
 
-        TaskAdapter.TaskViewHolder vh = new TaskAdapter.TaskViewHolder(v);
+        TopicTaskAdapter.TaskViewHolder vh = new TopicTaskAdapter.TaskViewHolder(v);
 
         return vh;
     }

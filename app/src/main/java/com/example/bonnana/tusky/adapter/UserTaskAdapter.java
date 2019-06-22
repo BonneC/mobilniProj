@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -14,26 +13,26 @@ import com.example.bonnana.tusky.model.Task;
 
 import java.util.ArrayList;
 
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder> {
+public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.UserTaskViewHolder> {
     private ArrayList<Task> tasks;
     private View.OnClickListener mOnItemClickListener;
-    private View.OnClickListener buttonListener;
+    private View.OnClickListener checkBoxListener;
 
-    public TasksAdapter(ArrayList<Task> tasks) {
+    public UserTaskAdapter(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
 
     @NonNull
     @Override
-    public TasksViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TasksViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.topic_tasks_view, parent, false));
+    public UserTaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new UserTaskViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.user_tasks_view, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TasksViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserTaskViewHolder holder, int position) {
         holder.title.setText(tasks.get(position).getName());
-        holder.btn_add.setTag(position);
+        holder.chbox_update.setTag(position);
     }
 
 
@@ -46,26 +45,31 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
         mOnItemClickListener = itemClickListener;
     }
 
-    public void setOnButtonClickListener(View.OnClickListener buttonClickListener) {
-        buttonListener = buttonClickListener;
+    public void setOnButtonClickListener(View.OnClickListener checkBoxListener) {
+        this.checkBoxListener = checkBoxListener;
     }
 
 
-    public class TasksViewHolder extends RecyclerView.ViewHolder {
+    public class UserTaskViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        private Button btn_add;
+        private CheckBox chbox_update;
 
-        public TasksViewHolder(View v) {
+        public UserTaskViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.task_title);
-            btn_add = v.findViewById(R.id.button_add_task);
+            chbox_update = v.findViewById(R.id.chbox_check_task);
 
 
             //btn_add.setOnClickListener(buttonListener);
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);
+            chbox_update.setOnClickListener(checkBoxListener);
 
+        }
+
+        public boolean isChecked(){
+            return chbox_update.isChecked();
         }
 
     }

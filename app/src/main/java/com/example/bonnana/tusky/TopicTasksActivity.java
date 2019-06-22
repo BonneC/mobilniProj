@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.bonnana.tusky.adapter.TasksAdapter;
+import com.example.bonnana.tusky.adapter.TopicTasksAdapter;
 import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.TaskList;
 import com.example.bonnana.tusky.network.RetrofitInstance;
@@ -75,9 +75,9 @@ public class TopicTasksActivity extends AppCompatActivity {
 
                 taskList.setTaskArrayList(response.body().getTaskArrayList());
 
-                mAdapter = new TasksAdapter(taskList.getTaskArrayList());
+                mAdapter = new TopicTasksAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);
-                ((TasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
+                ((TopicTasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
             }
 
             @Override
