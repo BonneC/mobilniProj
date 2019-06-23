@@ -16,10 +16,10 @@ import retrofit2.http.Path;
 public interface TaskServices {
 
     @GET("/task/{id}/")
-    Call<TaskList<UserTask>> getTaskData(@Header("Authorization") String token, @Path("id") int taskId);
+    Call<TaskList<Task>> getTaskData(@Header("Authorization") String token, @Path("id") int taskId);
 
     @GET("user/{id}/tasks")
-    Call<TaskList<UserTask>> getTasksData(@Header("Authorization") String token, @Path("id") int userId);
+    Call<TaskList<Task>> getTasksData(@Header("Authorization") String token, @Path("id") int userId);
 
     @GET("user/{id}/tasks/{task_id}")
     Call<TaskList<UserTask>> getTaskForUser(

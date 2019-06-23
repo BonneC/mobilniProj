@@ -23,7 +23,7 @@ public class TopicTasksActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
-    private TaskList taskList = new TaskList<Task>();
+    private TaskList<Task> taskList = new TaskList<>();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -63,13 +63,13 @@ public class TopicTasksActivity extends AppCompatActivity {
         TopicServices service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
 
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList> call = service.getTasksData(token, messageText);
+        Call<TaskList<Task>> call = service.getTasksData(token, messageText);
 
         Log.wtf("URL Called", call.request().url() + "");
 
-        call.enqueue(new Callback<TaskList>() {
+        call.enqueue(new Callback<TaskList<Task>>() {
             @Override
-            public void onResponse(Call<TaskList> call, Response<TaskList> response) {
+            public void onResponse(Call<TaskList<Task>> call, Response<TaskList<Task>> response) {
 //                String resp = response.body().toString();
 
 
@@ -81,7 +81,7 @@ public class TopicTasksActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<TaskList> call, Throwable t) {
+            public void onFailure(Call<TaskList<Task>> call, Throwable t) {
                 Toast.makeText(TopicTasksActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

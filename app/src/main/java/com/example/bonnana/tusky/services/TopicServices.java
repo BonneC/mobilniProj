@@ -1,5 +1,6 @@
 package com.example.bonnana.tusky.services;
 
+import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.TaskList;
 import com.example.bonnana.tusky.model.TopicList;
 
@@ -14,5 +15,5 @@ public interface TopicServices {
     Call<TopicList> getTopicsData();
 
     @GET("/topic/{id}/tasks")
-    Call<TaskList> getTasksData(@Header("Authorization")String token, @Path("id")int topicId);
+    Call<TaskList<Task>> getTasksData(@Header("Authorization")String token, @Path("id")int topicId);
 }

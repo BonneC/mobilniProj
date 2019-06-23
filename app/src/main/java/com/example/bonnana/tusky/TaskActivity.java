@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -79,13 +80,14 @@ public class TaskActivity extends AppCompatActivity {
 
         service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList<UserTask>> call = service.getTaskData(token, messageText);
+        Call<TaskList<UserTask>> call = service.getTaskForUser(token, 1,messageText);
 
         call.enqueue(new Callback<TaskList<UserTask>>() {
             @Override
             public void onResponse(Call<TaskList<UserTask>> call, Response<TaskList<UserTask>> response) {
-                taskList = new TaskList<UserTask>();
+                taskList = new TaskList<>();
                 taskList.setTaskArrayList(response.body().getTaskArrayList());
+                //Log.wtf("RESHPONS", response.body().getTaskArrayList().get(0).isCompleted() + "");
 
                 mAdapter = new UserTaskAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);

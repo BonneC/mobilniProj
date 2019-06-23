@@ -32,7 +32,7 @@ public class UserTasksActivity extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
-    private TaskList<UserTask> taskList = new TaskList<>();
+    private TaskList<Task> taskList = new TaskList<>();
     private int messageText;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
@@ -94,16 +94,16 @@ public class UserTasksActivity extends Fragment {
         TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
 
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList<UserTask>> call = service.getTasksData(token, 1);
+        Call<TaskList<Task>> call = service.getTasksData(token, 1);
 
         Log.wtf("URL Called", call.request().url() + "");
 
-        call.enqueue(new Callback<TaskList<UserTask>>() {
+        call.enqueue(new Callback<TaskList<Task>>() {
             @Override
-            public void onResponse(Call<TaskList<UserTask>> call, Response<TaskList<UserTask>> response) {
+            public void onResponse(Call<TaskList<Task>> call, Response<TaskList<Task>> response) {
 //                String resp = response.body().toString();
 
-                ArrayList<UserTask> apiTaskList = response.body().getTaskArrayList();
+                ArrayList<Task> apiTaskList = response.body().getTaskArrayList();
                 taskList.setTaskArrayList(apiTaskList);
 
                 mAdapter = new UserTasksAdapter(taskList.getTaskArrayList());
@@ -112,7 +112,7 @@ public class UserTasksActivity extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<TaskList<UserTask>> call, Throwable t) {
+            public void onFailure(Call<TaskList<Task>> call, Throwable t) {
                 Toast.makeText(UserTasksActivity.this.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
