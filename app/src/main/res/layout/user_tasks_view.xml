@@ -18,6 +18,10 @@
             android:id="@+id/task_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/task_completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <CheckBox
             android:id="@+id/chbox_check_task"
             android:layout_height="wrap_content"

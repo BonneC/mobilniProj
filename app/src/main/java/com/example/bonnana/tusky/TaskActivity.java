@@ -13,9 +13,11 @@ import com.example.bonnana.tusky.adapter.TopicTaskAdapter;
 import com.example.bonnana.tusky.adapter.UserTaskAdapter;
 import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.TaskList;
+import com.example.bonnana.tusky.model.UserTask;
 import com.example.bonnana.tusky.network.RetrofitInstance;
 import com.example.bonnana.tusky.services.TaskServices;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,42 +26,44 @@ public class TaskActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
-    private TaskList taskList = new TaskList();
+    private TaskServices service;
+    private TaskList taskList = new TaskList<UserTask>();
     private int messageText;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
-            int pos = (Integer)v.getTag();
+            int pos = (Integer) v.getTag();
 
-            Task task = taskList.getTaskArrayList().get(pos);
-            String id = task.getId();
+            UserTask task = (UserTask) taskList.getTaskArrayList().get(pos);
+            int id = Integer.parseInt(task.getId());
 
-
-           // Toast.makeText(TaskActivity.this, pos.toString(), Toast.LENGTH_LONG).show();
 
             CheckBox checkBox = (CheckBox) v.findViewById(R.id.chbox_check_task);
-//            int position = viewHolder.getAdapterPosition();
+            boolean completed;
 
+            if (checkBox.isChecked()) {
+                //Toast.makeText(TaskActivity.this, "CHECKED", Toast.LENGTH_LONG).show();
+                completed = true;
+            } else
+                completed = false;
 
-//            Task task = taskList.getTaskArrayList().get(position);
-//            String id = task.getId();
+            String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
+            Call<ResponseBody> call = service.updateTask(token, 1, id, completed);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Toast.makeText(TaskActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                }
 
-            if (checkBox.isChecked())
-                Toast.makeText(TaskActivity.this, "CHECKED", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(TaskActivity.this, "UNCHECKED", Toast.LENGTH_LONG).show();
-            // callExplicitIntent(id);
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(TaskActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
         }
     };
 
-    public void callExplicitIntent(String id) {
-        Intent intent = new Intent(this, TaskActivity.class);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, id);
-        startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -73,14 +77,14 @@ public class TaskActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+        service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
         Call<TaskList> call = service.getTaskData(token, messageText);
 
         call.enqueue(new Callback<TaskList>() {
             @Override
             public void onResponse(Call<TaskList> call, Response<TaskList> response) {
-                taskList = new TaskList();
+                taskList = new TaskList<UserTask>();
                 taskList.setTaskArrayList(response.body().getTaskArrayList());
 
                 mAdapter = new UserTaskAdapter(taskList.getTaskArrayList());

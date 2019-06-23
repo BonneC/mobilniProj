@@ -17,8 +17,11 @@ import com.example.bonnana.tusky.adapter.TopicTasksAdapter;
 import com.example.bonnana.tusky.adapter.UserTasksAdapter;
 import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.TaskList;
+import com.example.bonnana.tusky.model.UserTask;
 import com.example.bonnana.tusky.network.RetrofitInstance;
 import com.example.bonnana.tusky.services.TaskServices;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +32,7 @@ public class UserTasksActivity extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
-    private TaskList taskList = new TaskList();
+    private TaskList taskList = new TaskList<>();
     private int messageText;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
@@ -38,7 +41,7 @@ public class UserTasksActivity extends Fragment {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
 
-            Task task = taskList.getTaskArrayList().get(position);
+            Task task = (Task)taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
             Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
@@ -101,9 +104,9 @@ public class UserTasksActivity extends Fragment {
 //                String resp = response.body().toString();
 
 
-                taskList.setTaskArrayList(response.body().getTaskArrayList());
+                taskList.setTaskArrayList((ArrayList<Task>)response.body().getTaskArrayList());
 
-                mAdapter = new UserTasksAdapter(taskList.getTaskArrayList());
+                mAdapter = new UserTasksAdapter((ArrayList<Task>)taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);
                 ((UserTasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
             }
@@ -118,7 +121,7 @@ public class UserTasksActivity extends Fragment {
     public void checkTask(View view) {
         int pos = (Integer) view.getTag();
 
-        Task task = taskList.getTaskArrayList().get(pos);
+        Task task = (Task)taskList.getTaskArrayList().get(pos);
         String id = task.getId();
 
         Toast.makeText(UserTasksActivity.this.getContext(), id, Toast.LENGTH_LONG).show();

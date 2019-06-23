@@ -23,7 +23,7 @@ public class TopicTasksActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
-    private TaskList taskList = new TaskList();
+    private TaskList taskList = new TaskList<Task>();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -31,7 +31,7 @@ public class TopicTasksActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
 
-            Task task = taskList.getTaskArrayList().get(position);
+            Task task = (Task)taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
             Toast.makeText(TopicTasksActivity.this, "SUKSES", Toast.LENGTH_LONG).show();
@@ -90,7 +90,7 @@ public class TopicTasksActivity extends AppCompatActivity {
     public void addTask(View view) {
         int pos = (Integer) view.getTag();
 
-        Task task = taskList.getTaskArrayList().get(pos);
+        Task task = (Task)taskList.getTaskArrayList().get(pos);
         String id = task.getId();
 
         Toast.makeText(TopicTasksActivity.this, id, Toast.LENGTH_LONG).show();

@@ -10,15 +10,16 @@ import android.widget.TextView;
 
 import com.example.bonnana.tusky.R;
 import com.example.bonnana.tusky.model.Task;
+import com.example.bonnana.tusky.model.UserTask;
 
 import java.util.ArrayList;
 
 public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.UserTaskViewHolder> {
-    private ArrayList<Task> tasks;
+    private ArrayList<UserTask> tasks;
     private View.OnClickListener mOnItemClickListener;
     private View.OnClickListener checkBoxListener;
 
-    public UserTaskAdapter(ArrayList<Task> tasks) {
+    public UserTaskAdapter(ArrayList<UserTask> tasks) {
         this.tasks = tasks;
     }
 
@@ -32,6 +33,7 @@ public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.UserTa
     @Override
     public void onBindViewHolder(@NonNull UserTaskViewHolder holder, int position) {
         holder.title.setText(tasks.get(position).getName());
+        holder.completed.setText(tasks.get(position).isCompleted());
         holder.chbox_update.setTag(position);
     }
 
@@ -52,11 +54,13 @@ public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.UserTa
 
     public class UserTaskViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
+        private TextView completed;
         private CheckBox chbox_update;
 
         public UserTaskViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.task_title);
+            completed = v.findViewById(R.id.task_completed);
             chbox_update = v.findViewById(R.id.chbox_check_task);
 
 

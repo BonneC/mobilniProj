@@ -8,9 +8,9 @@ public class UserTask extends Task {
         String updatedTimestamp;
 
         @SerializedName("completed")
-        Boolean completed;
+        Integer completed;
 
-        UserTaskStatus(Boolean completed, String updatedTimestamp) {
+        UserTaskStatus(Integer completed, String updatedTimestamp) {
             this.updatedTimestamp = updatedTimestamp;
             this.completed = completed;
         }
@@ -19,7 +19,7 @@ public class UserTask extends Task {
     @SerializedName("pivot")
     private UserTaskStatus taskStatus;
 
-    public UserTask(String id, String name, String description, Boolean completed, String updatedTimestamp) {
+    public UserTask(String id, String name, String description, Integer completed, String updatedTimestamp) {
         super(id, name, description);
         this.taskStatus = new UserTaskStatus(completed, updatedTimestamp);
     }
@@ -27,4 +27,13 @@ public class UserTask extends Task {
     public UserTaskStatus getTaskStatus() {
         return taskStatus;
     }
+
+    public int isCompleted() {
+        return taskStatus.completed;
+    }
+
+    public void updateTaskStatus(int completed){
+        taskStatus.completed = completed;
+    }
+
 }
