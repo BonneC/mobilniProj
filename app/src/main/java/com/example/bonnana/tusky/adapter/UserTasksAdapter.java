@@ -14,11 +14,11 @@ import com.example.bonnana.tusky.model.Task;
 import java.util.ArrayList;
 
 public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.TasksViewHolder> {
-    private ArrayList<Task> tasks;
+    private ArrayList<? extends Task> tasks;
     private View.OnClickListener mOnItemClickListener;
     private View.OnClickListener buttonListener;
 
-    public UserTasksAdapter(ArrayList<Task> tasks) {
+    public UserTasksAdapter(ArrayList<? extends Task> tasks) {
         this.tasks = tasks;
     }
 

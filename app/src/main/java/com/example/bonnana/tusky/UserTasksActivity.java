@@ -32,7 +32,7 @@ public class UserTasksActivity extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
-    private TaskList taskList = new TaskList<>();
+    private TaskList<UserTask> taskList = new TaskList<>();
     private int messageText;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
@@ -41,7 +41,7 @@ public class UserTasksActivity extends Fragment {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
 
-            Task task = (Task)taskList.getTaskArrayList().get(position);
+            Task task = (Task) taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
             Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
@@ -60,7 +60,7 @@ public class UserTasksActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.activity_main, container, false);
+        View v = inflater.inflate(R.layout.activity_main, container, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
 
@@ -90,29 +90,29 @@ public class UserTasksActivity extends Fragment {
 //
 //    }
 
-    public void getTasks(){
+    public void getTasks() {
         TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
 
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList> call = service.getTasksData(token, 1);
+        Call<TaskList<UserTask>> call = service.getTasksData(token, 1);
 
         Log.wtf("URL Called", call.request().url() + "");
 
-        call.enqueue(new Callback<TaskList>() {
+        call.enqueue(new Callback<TaskList<UserTask>>() {
             @Override
-            public void onResponse(Call<TaskList> call, Response<TaskList> response) {
+            public void onResponse(Call<TaskList<UserTask>> call, Response<TaskList<UserTask>> response) {
 //                String resp = response.body().toString();
 
+                ArrayList<UserTask> apiTaskList = response.body().getTaskArrayList();
+                taskList.setTaskArrayList(apiTaskList);
 
-                taskList.setTaskArrayList((ArrayList<Task>)response.body().getTaskArrayList());
-
-                mAdapter = new UserTasksAdapter((ArrayList<Task>)taskList.getTaskArrayList());
+                mAdapter = new UserTasksAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);
                 ((UserTasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
             }
 
             @Override
-            public void onFailure(Call<TaskList> call, Throwable t) {
+            public void onFailure(Call<TaskList<UserTask>> call, Throwable t) {
                 Toast.makeText(UserTasksActivity.this.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -121,7 +121,7 @@ public class UserTasksActivity extends Fragment {
     public void checkTask(View view) {
         int pos = (Integer) view.getTag();
 
-        Task task = (Task)taskList.getTaskArrayList().get(pos);
+        Task task = (Task) taskList.getTaskArrayList().get(pos);
         String id = task.getId();
 
         Toast.makeText(UserTasksActivity.this.getContext(), id, Toast.LENGTH_LONG).show();
