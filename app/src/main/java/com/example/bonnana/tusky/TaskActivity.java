@@ -18,6 +18,8 @@ import com.example.bonnana.tusky.model.UserTask;
 import com.example.bonnana.tusky.network.RetrofitInstance;
 import com.example.bonnana.tusky.services.TaskServices;
 
+import java.util.ArrayList;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,9 +87,10 @@ public class TaskActivity extends AppCompatActivity {
         call.enqueue(new Callback<TaskList<UserTask>>() {
             @Override
             public void onResponse(Call<TaskList<UserTask>> call, Response<TaskList<UserTask>> response) {
-                taskList = new TaskList<>();
-                taskList.setTaskArrayList(response.body().getTaskArrayList());
-                //Log.wtf("RESHPONS", response.body().getTaskArrayList().get(0).isCompleted() + "");
+                ArrayList<UserTask> apiTaskList = response.body().getTaskArrayList();
+                taskList.setTaskArrayList(apiTaskList);
+                //taskList.setTaskArrayList(response.body().getTaskArrayList());
+                Log.wtf("RESHPONS", response.body().getTaskArrayList().get(0).isCompleted() + "");
 
                 mAdapter = new UserTaskAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.TasksViewHolder> {
     private ArrayList<? extends Task> tasks;
     private View.OnClickListener mOnItemClickListener;
-    private View.OnClickListener buttonListener;
+    //private View.OnClickListener buttonListener;
 
     public UserTasksAdapter(ArrayList<? extends Task> tasks) {
         this.tasks = tasks;
@@ -26,13 +26,13 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.Task
     @Override
     public TasksViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new TasksViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.topic_tasks_view, parent, false));
+                .inflate(R.layout.user_tasks_view, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull TasksViewHolder holder, int position) {
         holder.title.setText(tasks.get(position).getName());
-        holder.btn_add.setTag(position);
+        //.btn_add.setTag(position);
     }
 
 
@@ -45,26 +45,26 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.Task
         mOnItemClickListener = itemClickListener;
     }
 
-    public void setOnButtonClickListener(View.OnClickListener buttonClickListener) {
-        buttonListener = buttonClickListener;
-    }
+//    public void setOnButtonClickListener(View.OnClickListener buttonClickListener) {
+//        buttonListener = buttonClickListener;
+//    }
 
 
     public class TasksViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        private Button btn_add;
+        //private Button btn_add;
 
         public TasksViewHolder(View v) {
             super(v);
-            title = v.findViewById(R.id.task_title);
-            btn_add = v.findViewById(R.id.button_add_task);
+            title = v.findViewById(R.id.task_name);
+            //btn_add = v.findViewById(R.id.button_add_task);
 
 
             //btn_add.setOnClickListener(buttonListener);
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);
-            btn_add.setOnClickListener(buttonListener);
+            //btn_add.setOnClickListener(buttonListener);
 
         }
 

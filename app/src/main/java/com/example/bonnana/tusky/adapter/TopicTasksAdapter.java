@@ -32,6 +32,7 @@ public class TopicTasksAdapter extends RecyclerView.Adapter<TopicTasksAdapter.Ta
     @Override
     public void onBindViewHolder(@NonNull TasksViewHolder holder, int position) {
         holder.title.setText(tasks.get(position).getName());
+        holder.description.setText(tasks.get(position).getDescription());
         holder.btn_add.setTag(position);
     }
 
@@ -52,15 +53,17 @@ public class TopicTasksAdapter extends RecyclerView.Adapter<TopicTasksAdapter.Ta
 
     public class TasksViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
+        private TextView description;
         private Button btn_add;
 
         public TasksViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.task_title);
+            description = v.findViewById(R.id.task_description);
             btn_add = v.findViewById(R.id.button_add_task);
 
 
-            //btn_add.setOnClickListener(buttonListener);
+            btn_add.setOnClickListener(buttonListener);
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);

@@ -34,15 +34,30 @@ public class TopicTasksActivity extends AppCompatActivity {
             Task task = (Task)taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
-            Toast.makeText(TopicTasksActivity.this, "SUKSES", Toast.LENGTH_LONG).show();
+            Toast.makeText(TopicTasksActivity.this, id, Toast.LENGTH_LONG).show();
 
             callExplicitIntent(id);
         }
     };
 
+    private View.OnClickListener onButtonClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+
+            Task task = (Task)taskList.getTaskArrayList().get(position);
+            String id = task.getId();
+
+            Toast.makeText(TopicTasksActivity.this, "SUKSES", Toast.LENGTH_LONG).show();
+
+//            callExplicitIntent(id);
+        }
+    };
+
 
     public void callExplicitIntent(String id) {
-        Intent intent = new Intent(this, TaskActivity.class);
+        Intent intent = new Intent(this, TopicTaskActivity.class);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, id);
         startActivity(intent);
@@ -78,6 +93,7 @@ public class TopicTasksActivity extends AppCompatActivity {
                 mAdapter = new TopicTasksAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);
                 ((TopicTasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
+                ((TopicTasksAdapter) mAdapter).setOnButtonClickListener(onButtonClickListener);
             }
 
             @Override

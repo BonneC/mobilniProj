@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.bonnana.tusky.R;
-import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.UserTask;
 
 import java.util.ArrayList;
@@ -27,13 +26,18 @@ public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.UserTa
     @Override
     public UserTaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new UserTaskViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.user_tasks_view, parent, false));
+                .inflate(R.layout.user_task_view, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserTaskViewHolder holder, int position) {
         holder.title.setText(tasks.get(position).getName());
-        holder.completed.setText(tasks.get(position).isCompleted());
+        Integer tmp = ((UserTask)tasks.get(position)).isCompleted();
+        holder.completed.setText(tmp.toString());
+        if(tmp==1)
+            holder.chbox_update.setChecked(true);
+        else
+            holder.chbox_update.setChecked(false);
         holder.chbox_update.setTag(position);
     }
 

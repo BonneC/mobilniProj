@@ -13,7 +13,7 @@ import com.example.bonnana.tusky.model.Task;
 
 import java.util.ArrayList;
 
-public class TopicTaskAdapter extends RecyclerView.Adapter<TopicTaskAdapter.TaskViewHolder> {
+public class TopicTaskAdapter extends RecyclerView.Adapter<TopicTaskAdapter.TopicTaskViewHolder> {
     private ArrayList<Task> tasks;
     private Context context;
     private View.OnClickListener mOnItemClickListener;
@@ -24,25 +24,15 @@ public class TopicTaskAdapter extends RecyclerView.Adapter<TopicTaskAdapter.Task
 
     @NonNull
     @Override
-    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.task_view, parent, false);
-
-        TopicTaskAdapter.TaskViewHolder vh = new TopicTaskAdapter.TaskViewHolder(v);
-
-        return vh;
+    public TopicTaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new TopicTaskViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.topic_task_view, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int i) {
-        Task task = tasks.get(i);
-
-        TextView title = taskViewHolder.title;
-        title.setText(task.getName());
-        TextView description = taskViewHolder.description;
-        description.setText(task.getDescription());
-//        taskViewHolder.title.setText(task.getName());
-//        taskViewHolder.description.setText(task.getDescription());
+    public void onBindViewHolder(@NonNull TopicTaskViewHolder holder, int position) {
+        holder.title.setText(tasks.get(position).getName());
+        holder.description.setText(tasks.get(position).getDescription());
     }
 
     @Override
@@ -50,14 +40,14 @@ public class TopicTaskAdapter extends RecyclerView.Adapter<TopicTaskAdapter.Task
         return tasks.size();
     }
 
-    public class TaskViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public TextView description;
+    public class TopicTaskViewHolder extends RecyclerView.ViewHolder {
+        private TextView title;
+        private TextView description;
 
-        public TaskViewHolder(View v) {
+        public TopicTaskViewHolder(View v) {
             super(v);
 
-            title = (TextView) v.findViewById(R.id.task_name);
+            title = (TextView) v.findViewById(R.id.task_title);
             description = (TextView) v.findViewById(R.id.task_description);
         }
     }

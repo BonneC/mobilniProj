@@ -72,24 +72,6 @@ public class UserTasksActivity extends Fragment {
         return v;
     }
 
-    //    @Override
-//    protected void onCreate(Bundle savedInstance) {
-//        super.onCreate(savedInstance);
-//        setContentView(R.layout.activity_main);
-//
-//        Intent intent = getIntent();
-//        messageText =  Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
-//
-//        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-//
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//        getTasks();
-//
-//
-//    }
-
     public void getTasks() {
         TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
 
