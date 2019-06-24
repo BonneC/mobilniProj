@@ -42,6 +42,10 @@ public class TopicTasksAdapter extends RecyclerView.Adapter<TopicTasksAdapter.Ta
         return tasks.size();
     }
 
+    public void setItems(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     public void setOnItemClickListener(View.OnClickListener itemClickListener) {
         mOnItemClickListener = itemClickListener;
     }

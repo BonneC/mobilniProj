@@ -3,6 +3,7 @@ package com.example.bonnana.tusky.services;
 import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.TaskList;
 import com.example.bonnana.tusky.model.UserTask;
+import com.example.bonnana.tusky.services.jsonClasses.UpdatedTask;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,7 +35,7 @@ public interface TaskServices {
             @Header("Authorization") String token,
             @Path("id") int userId,
             @Path("task_id") int task_id,
-            @Field("completed") boolean completed
+            @Body UpdatedTask updatedTask
     );
 
     @POST("user/{id}/tasks/{task_id}")
@@ -44,3 +45,4 @@ public interface TaskServices {
             @Path("task_id") int task_id
     );
 }
+

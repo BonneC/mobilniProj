@@ -26,6 +26,8 @@ public class TopicTasksActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
     private TaskList<Task> taskList = new TaskList<>();
+    private TopicServices service;
+    private int messageText;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -56,6 +58,7 @@ public class TopicTasksActivity extends AppCompatActivity {
             TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
 
             String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
+
             Call<ResponseBody> call = service.addTask(token, 1, id);
 
             Log.wtf("URL Called", call.request().url() + "");
@@ -64,8 +67,8 @@ public class TopicTasksActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 //                    String resp = response.body().toString();
-                    Toast.makeText(TopicTasksActivity.this, response.message(), Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(TopicTasksActivity.this, "Added task", Toast.LENGTH_LONG).show();
+                    getTasks();
 
                 }
 
@@ -92,15 +95,19 @@ public class TopicTasksActivity extends AppCompatActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        int messageText = Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
+        messageText = Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        TopicServices service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
+        service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
 
+        getTasks();
+    }
+
+    private void getTasks(){
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
         Call<TaskList<Task>> call = service.getTasksData(token, messageText);
 
@@ -126,13 +133,4 @@ public class TopicTasksActivity extends AppCompatActivity {
             }
         });
     }
-
-//    public void addTask(View view) {
-//        int pos = (Integer) view.getTag();
-//
-//        Task task = (Task) taskList.getTaskArrayList().get(pos);
-//        String id = task.getId();
-//
-//        Toast.makeText(TopicTasksActivity.this, id, Toast.LENGTH_LONG).show();
-//    }
 }

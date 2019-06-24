@@ -50,12 +50,22 @@ public class UserTasksActivity extends Fragment {
         }
     };
 
-    public void callExplicitIntent(String id) {
-        Intent intent = new Intent(this.getContext(), TaskActivity.class);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, id);
-        startActivity(intent);
-    }
+    private View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+
+            Task task = (Task) taskList.getTaskArrayList().get(position);
+            String id = task.getId();
+
+            Toast.makeText(UserTasksActivity.this.getContext(), id, Toast.LENGTH_LONG).show();
+
+            return true;
+
+        }
+    };
+
 
     @Nullable
     @Override
@@ -91,6 +101,7 @@ public class UserTasksActivity extends Fragment {
                 mAdapter = new UserTasksAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);
                 ((UserTasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
+                ((UserTasksAdapter) mAdapter).setOnItemLongClickListener(onItemLongClickListener);
             }
 
             @Override
@@ -99,6 +110,14 @@ public class UserTasksActivity extends Fragment {
             }
         });
     }
+
+    public void callExplicitIntent(String id) {
+        Intent intent = new Intent(this.getContext(), TaskActivity.class);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, id);
+        startActivity(intent);
+    }
+
 
     public void checkTask(View view) {
         int pos = (Integer) view.getTag();

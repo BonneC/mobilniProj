@@ -17,6 +17,7 @@ import com.example.bonnana.tusky.model.TaskList;
 import com.example.bonnana.tusky.model.UserTask;
 import com.example.bonnana.tusky.network.RetrofitInstance;
 import com.example.bonnana.tusky.services.TaskServices;
+import com.example.bonnana.tusky.services.jsonClasses.UpdatedTask;
 
 import java.util.ArrayList;
 
@@ -46,17 +47,17 @@ public class TaskActivity extends AppCompatActivity {
             boolean completed;
 
             if (checkBox.isChecked()) {
-                //Toast.makeText(TaskActivity.this, "CHECKED", Toast.LENGTH_LONG).show();
                 completed = true;
             } else
                 completed = false;
 
+            UpdatedTask updated = new UpdatedTask(completed);
             String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-            Call<ResponseBody> call = service.updateTask(token, 1, id, completed);
+            Call<ResponseBody> call = service.updateTask(token, 1, id, updated);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Toast.makeText(TaskActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(TaskActivity.this, "Task Completed", Toast.LENGTH_LONG).show();
                 }
 
                 @Override

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.TasksViewHolder> {
     private ArrayList<? extends Task> tasks;
     private View.OnClickListener mOnItemClickListener;
+    private View.OnLongClickListener mOnItemLongClickListener;
     //private View.OnClickListener buttonListener;
 
     public UserTasksAdapter(ArrayList<? extends Task> tasks) {
@@ -45,6 +46,10 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.Task
         mOnItemClickListener = itemClickListener;
     }
 
+    public void setOnItemLongClickListener(View.OnLongClickListener itemClickListener) {
+        mOnItemLongClickListener = itemClickListener;
+    }
+
 //    public void setOnButtonClickListener(View.OnClickListener buttonClickListener) {
 //        buttonListener = buttonClickListener;
 //    }
@@ -64,6 +69,7 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.Task
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);
+            v.setOnLongClickListener(mOnItemLongClickListener);
             //btn_add.setOnClickListener(buttonListener);
 
         }
