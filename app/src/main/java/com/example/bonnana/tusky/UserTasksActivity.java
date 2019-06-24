@@ -1,5 +1,7 @@
 package com.example.bonnana.tusky;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,7 +35,6 @@ public class UserTasksActivity extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
     private TaskList<Task> taskList = new TaskList<>();
-    private int messageText;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -58,6 +59,20 @@ public class UserTasksActivity extends Fragment {
 
             Task task = (Task) taskList.getTaskArrayList().get(position);
             String id = task.getId();
+
+            AlertDialog alert = new AlertDialog.Builder(UserTasksActivity.this.getContext())
+                    .setTitle("Delete task?")
+                    .setMessage("Are you sure you want to delete this task?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+
 
             Toast.makeText(UserTasksActivity.this.getContext(), id, Toast.LENGTH_LONG).show();
 
