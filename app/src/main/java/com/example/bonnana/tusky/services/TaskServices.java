@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -34,5 +35,12 @@ public interface TaskServices {
             @Path("id") int userId,
             @Path("task_id") int task_id,
             @Field("completed") boolean completed
+    );
+
+    @POST("user/{id}/tasks/{task_id}")
+    Call<ResponseBody> addTask(
+            @Header("Authorization") String token,
+            @Path("id") int userId,
+            @Path("task_id") int task_id
     );
 }

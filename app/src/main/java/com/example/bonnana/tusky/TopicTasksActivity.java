@@ -13,8 +13,10 @@ import com.example.bonnana.tusky.adapter.TopicTasksAdapter;
 import com.example.bonnana.tusky.model.Task;
 import com.example.bonnana.tusky.model.TaskList;
 import com.example.bonnana.tusky.network.RetrofitInstance;
+import com.example.bonnana.tusky.services.TaskServices;
 import com.example.bonnana.tusky.services.TopicServices;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,13 +27,13 @@ public class TopicTasksActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private TaskList<Task> taskList = new TaskList<>();
 
-    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
 
-            Task task = (Task)taskList.getTaskArrayList().get(position);
+            Task task = (Task) taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
             Toast.makeText(TopicTasksActivity.this, id, Toast.LENGTH_LONG).show();
@@ -40,16 +42,38 @@ public class TopicTasksActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener onButtonClickListener = new View.OnClickListener(){
+    private View.OnClickListener onButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
-            int position = viewHolder.getAdapterPosition();
 
-            Task task = (Task)taskList.getTaskArrayList().get(position);
-            String id = task.getId();
+            int pos = (Integer) v.getTag();
 
-            Toast.makeText(TopicTasksActivity.this, "SUKSES", Toast.LENGTH_LONG).show();
+            Task task = (Task) taskList.getTaskArrayList().get(pos);
+            int id = Integer.parseInt(task.getId());
+
+            Toast.makeText(TopicTasksActivity.this, task.getId(), Toast.LENGTH_LONG).show();
+
+            TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+
+            String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
+            Call<ResponseBody> call = service.addTask(token, 1, id);
+
+            Log.wtf("URL Called", call.request().url() + "");
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    String resp = response.body().toString();
+                    Toast.makeText(TopicTasksActivity.this, response.message(), Toast.LENGTH_LONG).show();
+
+
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(TopicTasksActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
 
 //            callExplicitIntent(id);
         }
@@ -68,7 +92,7 @@ public class TopicTasksActivity extends AppCompatActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        int messageText =  Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
+        int messageText = Integer.parseInt(intent.getStringExtra(Intent.EXTRA_TEXT));
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -103,12 +127,12 @@ public class TopicTasksActivity extends AppCompatActivity {
         });
     }
 
-    public void addTask(View view) {
-        int pos = (Integer) view.getTag();
-
-        Task task = (Task)taskList.getTaskArrayList().get(pos);
-        String id = task.getId();
-
-        Toast.makeText(TopicTasksActivity.this, id, Toast.LENGTH_LONG).show();
-    }
+//    public void addTask(View view) {
+//        int pos = (Integer) view.getTag();
+//
+//        Task task = (Task) taskList.getTaskArrayList().get(pos);
+//        String id = task.getId();
+//
+//        Toast.makeText(TopicTasksActivity.this, id, Toast.LENGTH_LONG).show();
+//    }
 }
