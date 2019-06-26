@@ -25,6 +25,7 @@ import com.example.bonnana.tusky.services.TaskServices;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,7 +66,7 @@ public class UserTasksActivity extends Fragment {
                     .setMessage("Are you sure you want to delete this task?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
+                            deleteTask(Integer.parseInt(id));
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -121,6 +122,33 @@ public class UserTasksActivity extends Fragment {
 
             @Override
             public void onFailure(Call<TaskList<Task>> call, Throwable t) {
+                Toast.makeText(UserTasksActivity.this.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void deleteTask(int taskId){
+        TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+
+        String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
+        Call<ResponseBody> call = service.deleteTask(token, 1, taskId);
+
+        Log.wtf("URL Called", call.request().url() + "");
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                String resp = response.body().toString();
+
+                //ArrayList<Task> apiTaskList = response.body().getTaskArrayList();
+                //taskList.setTaskArrayList(apiTaskList);
+                Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
+                getTasks();
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(UserTasksActivity.this.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

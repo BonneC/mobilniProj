@@ -8,6 +8,7 @@ import com.example.bonnana.tusky.services.jsonClasses.UpdatedTask;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -40,6 +41,13 @@ public interface TaskServices {
 
     @POST("user/{id}/tasks/{task_id}")
     Call<ResponseBody> addTask(
+            @Header("Authorization") String token,
+            @Path("id") int userId,
+            @Path("task_id") int task_id
+    );
+
+    @DELETE("user/{id}/tasks/{task_id}")
+    Call<ResponseBody> deleteTask(
             @Header("Authorization") String token,
             @Path("id") int userId,
             @Path("task_id") int task_id
