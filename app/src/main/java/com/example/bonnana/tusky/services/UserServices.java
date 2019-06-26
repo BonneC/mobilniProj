@@ -11,8 +11,12 @@ import retrofit2.http.POST;
 
 public interface UserServices {
     @POST("/auth/login")
-    Call<Token> login(@Body Login login);
+    Call<Token> login(
+            @Body Login login
+    );
 
     @POST("/auth/me")
-    Call<User> getUser(@Header("Authorization") String token);
+    Call<User> getUser(
+            @Header("Authorization") String token
+    );
 }

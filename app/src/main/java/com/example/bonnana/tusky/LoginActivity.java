@@ -3,7 +3,10 @@ package com.example.bonnana.tusky;
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +23,14 @@ import android.widget.Toast;
 
 import com.example.bonnana.tusky.R;
 import com.example.bonnana.tusky.model.Login;
+import com.example.bonnana.tusky.model.Token;
+import com.example.bonnana.tusky.network.RetrofitInstance;
+import com.example.bonnana.tusky.services.UserServices;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     Login login;
@@ -27,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordEditText;
     Button loginButton;
     ProgressBar loadingProgressBar;
+    UserServices userServices;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         loadingProgressBar = findViewById(R.id.loading);
         login = new Login();
+
+        userServices = RetrofitInstance.getRetrofitInstance().create(UserServices.class);
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -66,21 +80,46 @@ public class LoginActivity extends AppCompatActivity {
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
 
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    // login here
-                }
-                return false;
+        LoginActivity activityContext = this;
+
+        passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                activityContext.login();
             }
+            return false;
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(v -> {
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            activityContext.login();
+        });
+    }
+
+    private void login() {
+        Call<Token> call = userServices.login(login);
+        call.enqueue(new Callback<Token>() {
             @Override
-            public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                // login here
+            public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
+                loadingProgressBar.setVisibility(View.GONE);
+
+                Token token = response.body();
+                if (token == null) {
+                    return;
+                }
+
+                SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                editor.putString("idToken", token.getToken());
+                editor.apply();
+
+                Toast.makeText(LoginActivity.this, token.getToken(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Token> call, @NonNull Throwable t) {
+                loadingProgressBar.setVisibility(View.GONE);
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -114,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
             return "No password entered";
         }
         if (password.length() < 6) {
-            return "Password can't be shorter than 6 characters";
+            return "Password can't be shorter than 4 characters";
         }
         return null;
     }
