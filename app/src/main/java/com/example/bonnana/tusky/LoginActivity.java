@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loading);
         login = new Login();
 
-        userServices = RetrofitInstance.getRetrofitInstance().create(UserServices.class);
+        userServices = RetrofitInstance.getRetrofitInstance(getApplicationContext()).create(UserServices.class);
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -107,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 editor.putString("idToken", token.getToken());

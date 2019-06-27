@@ -53,7 +53,7 @@ public class TopicsActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.activity_main, container, false);
+        View v = inflater.inflate(R.layout.activity_main, container, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
 
@@ -81,7 +81,7 @@ public class TopicsActivity extends Fragment {
 //    }
 
     private void getTopics() {
-        TopicServices service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
+        TopicServices service = RetrofitInstance.getRetrofitInstance(getContext().getApplicationContext()).create(TopicServices.class);
 
         Call<TopicList> call = service.getTopicsData();
 

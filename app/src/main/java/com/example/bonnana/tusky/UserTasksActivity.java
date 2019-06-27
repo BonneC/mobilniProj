@@ -99,7 +99,7 @@ public class UserTasksActivity extends Fragment {
     }
 
     public void getTasks() {
-        TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+        TaskServices service = RetrofitInstance.getRetrofitInstance(getContext().getApplicationContext()).create(TaskServices.class);
 
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
         Call<TaskList<Task>> call = service.getTasksData(token, 1);
@@ -128,7 +128,7 @@ public class UserTasksActivity extends Fragment {
     }
 
     public void deleteTask(int taskId){
-        TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+        TaskServices service = RetrofitInstance.getRetrofitInstance(getContext().getApplicationContext()).create(TaskServices.class);
 
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
         Call<ResponseBody> call = service.deleteTask(token, 1, taskId);
