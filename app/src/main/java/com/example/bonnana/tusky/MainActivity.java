@@ -13,6 +13,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.Toast;
@@ -67,12 +69,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String token = sharedPref.getString("idToken", "none");
 
-        if (token.equals("none")){
+        if (token.equals("none")) {
             Intent intent = new Intent(this, LoginActivity.class);
 
             startActivity(intent);
-        }
-        else{
+        } else {
             tabLayout = findViewById(R.id.tabs);
             viewPager = findViewById(R.id.viewpager);
             TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager());
@@ -82,11 +83,9 @@ public class MainActivity extends AppCompatActivity {
             adapter.addFragment(new TopicsActivity(), "Topics");
 
 
-
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
         }
-
 
 
 //
@@ -99,10 +98,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-
-//    public void getTopics(){
+    //    public void getTopics(){
 //        Intent intent = new Intent(this, TopicsActivity.class);
 //
 //        startActivity(intent);
