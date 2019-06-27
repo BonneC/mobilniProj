@@ -1,5 +1,6 @@
 package com.example.bonnana.tusky;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    UserTasksActivity ut;
 
 
 //    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
@@ -74,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
             tabLayout = findViewById(R.id.tabs);
             viewPager = findViewById(R.id.viewpager);
             TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager());
-            adapter.addFragment(new UserTasksActivity(), "Tasks");
+            ut = new UserTasksActivity();
+
+            adapter.addFragment(ut, "Tasks");
             adapter.addFragment(new TopicsActivity(), "Topics");
 
 
@@ -82,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
         }
+
+
+
 //
 //        layoutManager = new GridLayoutManager(this, 3);
 //        recyclerView.setLayoutManager(layoutManager);
@@ -91,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
+
+
+
 
 //    public void getTopics(){
 //        Intent intent = new Intent(this, TopicsActivity.class);

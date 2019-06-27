@@ -1,5 +1,7 @@
 package com.example.bonnana.tusky;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +71,12 @@ public class TopicTasksActivity extends AppCompatActivity {
                     Toast.makeText(TopicTasksActivity.this, "Added task", Toast.LENGTH_LONG).show();
                     getTasks();
 
+//                    FragmentManager fm = getFragmentManager();
+//                    UserTasksActivity fragm = (UserTasksActivity) fm.findFragmentByTag("Tasks");
+//                    fragm.otherList();
+
+                    UserTasksActivity.getInstance().getTasks();
+
                 }
 
                 @Override
@@ -80,6 +88,7 @@ public class TopicTasksActivity extends AppCompatActivity {
 //            callExplicitIntent(id);
         }
     };
+
 
 
     public void callExplicitIntent(String id) {
@@ -115,7 +124,6 @@ public class TopicTasksActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TaskList<Task>> call, Response<TaskList<Task>> response) {
 //                String resp = response.body().toString();
-
 
                 taskList.setTaskArrayList(response.body().getTaskArrayList());
 

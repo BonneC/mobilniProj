@@ -36,6 +36,11 @@ public class UserTasksActivity extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
     private TaskList<Task> taskList = new TaskList<>();
+    private static UserTasksActivity instance = null;
+
+    public static UserTasksActivity getInstance(){
+        return instance;
+    }
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -86,7 +91,7 @@ public class UserTasksActivity extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_main, container, false);
-
+        instance = this;
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
 
         layoutManager = new LinearLayoutManager(v.getContext());
@@ -100,7 +105,6 @@ public class UserTasksActivity extends Fragment {
     public void getTasks() {
         TaskServices service = RetrofitInstance.getRetrofitInstance(UserTasksActivity.this.getContext()).create(TaskServices.class);
 
-        String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
         Call<TaskList<Task>> call = service.getTasksData(1);
 
         Log.wtf("URL Called", call.request().url() + "");
