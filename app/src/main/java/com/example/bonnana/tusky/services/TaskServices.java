@@ -19,21 +19,19 @@ import retrofit2.http.Path;
 public interface TaskServices {
 
     @GET("/task/{id}/")
-    Call<TaskList<Task>> getTaskData(@Header("Authorization") String token, @Path("id") int taskId);
+    Call<TaskList<Task>> getTaskData(@Path("id") int taskId);
 
     @GET("user/{id}/tasks")
-    Call<TaskList<Task>> getTasksData(@Header("Authorization") String token, @Path("id") int userId);
+    Call<TaskList<Task>> getTasksData(@Path("id") int userId);
 
     @GET("user/{id}/tasks/{task_id}")
     Call<TaskList<UserTask>> getTaskForUser(
-            @Header("Authorization") String token,
             @Path("id") int userId,
             @Path("task_id") int taskId
     );
 
     @PUT("user/{id}/tasks/{task_id}")
     Call<ResponseBody> updateTask(
-            @Header("Authorization") String token,
             @Path("id") int userId,
             @Path("task_id") int task_id,
             @Body UpdatedTask updatedTask
@@ -41,14 +39,12 @@ public interface TaskServices {
 
     @POST("user/{id}/tasks/{task_id}")
     Call<ResponseBody> addTask(
-            @Header("Authorization") String token,
             @Path("id") int userId,
             @Path("task_id") int task_id
     );
 
     @DELETE("user/{id}/tasks/{task_id}")
     Call<ResponseBody> deleteTask(
-            @Header("Authorization") String token,
             @Path("id") int userId,
             @Path("task_id") int task_id
     );

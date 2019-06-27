@@ -81,7 +81,7 @@ public class TopicsActivity extends Fragment {
 //    }
 
     private void getTopics() {
-        TopicServices service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
+        TopicServices service = RetrofitInstance.getRetrofitInstance(TopicsActivity.this.getContext()).create(TopicServices.class);
 
         Call<TopicList> call = service.getTopicsData();
 

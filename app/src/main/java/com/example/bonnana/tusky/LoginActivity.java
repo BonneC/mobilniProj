@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent intent = getIntent();
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
@@ -51,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loading);
         login = new Login();
 
-        userServices = RetrofitInstance.getRetrofitInstance().create(UserServices.class);
+        userServices = RetrofitInstance.getRetrofitInstance(LoginActivity.this).create(UserServices.class);
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -107,13 +110,16 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 editor.putString("idToken", token.getToken());
                 editor.apply();
+                editor.commit();
 
                 Toast.makeText(LoginActivity.this, token.getToken(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
             }
 
             @Override

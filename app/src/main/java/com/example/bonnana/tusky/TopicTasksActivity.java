@@ -55,11 +55,10 @@ public class TopicTasksActivity extends AppCompatActivity {
 
             Toast.makeText(TopicTasksActivity.this, task.getId(), Toast.LENGTH_LONG).show();
 
-            TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+            TaskServices service = RetrofitInstance.getRetrofitInstance(TopicTasksActivity.this).create(TaskServices.class);
 
-            String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
 
-            Call<ResponseBody> call = service.addTask(token, 1, id);
+            Call<ResponseBody> call = service.addTask(1, id);
 
             Log.wtf("URL Called", call.request().url() + "");
 
@@ -102,14 +101,13 @@ public class TopicTasksActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        service = RetrofitInstance.getRetrofitInstance().create(TopicServices.class);
+        service = RetrofitInstance.getRetrofitInstance(TopicTasksActivity.this).create(TopicServices.class);
 
         getTasks();
     }
 
-    private void getTasks(){
-        String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList<Task>> call = service.getTasksData(token, messageText);
+    private void getTasks() {
+        Call<TaskList<Task>> call = service.getTasksData(messageText);
 
         Log.wtf("URL Called", call.request().url() + "");
 

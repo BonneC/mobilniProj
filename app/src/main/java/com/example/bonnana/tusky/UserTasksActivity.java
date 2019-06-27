@@ -74,7 +74,6 @@ public class UserTasksActivity extends Fragment {
                     .show();
 
 
-
             Toast.makeText(UserTasksActivity.this.getContext(), id, Toast.LENGTH_LONG).show();
 
             return true;
@@ -99,10 +98,10 @@ public class UserTasksActivity extends Fragment {
     }
 
     public void getTasks() {
-        TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+        TaskServices service = RetrofitInstance.getRetrofitInstance(UserTasksActivity.this.getContext()).create(TaskServices.class);
 
         String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList<Task>> call = service.getTasksData(token, 1);
+        Call<TaskList<Task>> call = service.getTasksData(1);
 
         Log.wtf("URL Called", call.request().url() + "");
 
@@ -127,11 +126,10 @@ public class UserTasksActivity extends Fragment {
         });
     }
 
-    public void deleteTask(int taskId){
-        TaskServices service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
+    public void deleteTask(int taskId) {
+        TaskServices service = RetrofitInstance.getRetrofitInstance(UserTasksActivity.this.getContext()).create(TaskServices.class);
 
-        String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<ResponseBody> call = service.deleteTask(token, 1, taskId);
+        Call<ResponseBody> call = service.deleteTask(1, taskId);
 
         Log.wtf("URL Called", call.request().url() + "");
 

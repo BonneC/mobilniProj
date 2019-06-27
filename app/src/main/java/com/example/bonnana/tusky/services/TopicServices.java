@@ -15,5 +15,5 @@ public interface TopicServices {
     Call<TopicList> getTopicsData();
 
     @GET("/topic/{id}/tasks")
-    Call<TaskList<Task>> getTasksData(@Header("Authorization")String token, @Path("id")int topicId);
+    Call<TaskList<Task>> getTasksData(@Path("id")int topicId);
 }

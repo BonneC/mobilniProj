@@ -1,6 +1,9 @@
 package com.example.bonnana.tusky;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +61,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String token = sharedPref.getString("idToken", "none");
+
+        if (token.equals("none")){
+            Intent intent = new Intent(this, LoginActivity.class);
+
+            startActivity(intent);
+        }
+        else{
+            tabLayout = findViewById(R.id.tabs);
+            viewPager = findViewById(R.id.viewpager);
+            TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager());
+            adapter.addFragment(new UserTasksActivity(), "Tasks");
+            adapter.addFragment(new TopicsActivity(), "Topics");
+
+
+
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
+        }
 //
 //        layoutManager = new GridLayoutManager(this, 3);
 //        recyclerView.setLayoutManager(layoutManager);
@@ -65,14 +89,7 @@ public class MainActivity extends AppCompatActivity {
 //        toolbar = (Toolbar) findViewById(R.id.nav_bar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        tabLayout = findViewById(R.id.tabs);
-        viewPager = findViewById(R.id.viewpager);
-        TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager());
-        adapter.addFragment(new UserTasksActivity(), "Tasks");
-        adapter.addFragment(new TopicsActivity(), "Topics");
 
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
 //    public void getTopics(){

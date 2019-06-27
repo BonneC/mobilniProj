@@ -52,8 +52,8 @@ public class TaskActivity extends AppCompatActivity {
                 completed = false;
 
             UpdatedTask updated = new UpdatedTask(completed);
-            String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-            Call<ResponseBody> call = service.updateTask(token, 1, id, updated);
+
+            Call<ResponseBody> call = service.updateTask(1, id, updated);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -81,9 +81,9 @@ public class TaskActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        service = RetrofitInstance.getRetrofitInstance().create(TaskServices.class);
-        String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdHVza3kuYXRhbmFzay5ta1wvYXV0aFwvbG9naW4iLCJpYXQiOjE1NjA1NTMwMzUsIm5iZiI6MTU2MDU1MzAzNiwianRpIjoiN3EzMXQ1b3JlRzdtYkJLViIsInN1YiI6MSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.AtK9Hq9OOdnxIlxe9tUvCCJ1wAWNfwUwB4AvcUwJZ8A";
-        Call<TaskList<UserTask>> call = service.getTaskForUser(token, 1,messageText);
+        service = RetrofitInstance.getRetrofitInstance(TaskActivity.this).create(TaskServices.class);
+
+        Call<TaskList<UserTask>> call = service.getTaskForUser(1, messageText);
 
         call.enqueue(new Callback<TaskList<UserTask>>() {
             @Override
@@ -91,7 +91,7 @@ public class TaskActivity extends AppCompatActivity {
                 ArrayList<UserTask> apiTaskList = response.body().getTaskArrayList();
                 taskList.setTaskArrayList(apiTaskList);
                 //taskList.setTaskArrayList(response.body().getTaskArrayList());
-                Log.wtf("RESHPONS", response.body().getTaskArrayList().get(0).isCompleted() + "");
+                //Log.wtf("RESHPONS", response.body().getTaskArrayList().get(0).getName());
 
                 mAdapter = new UserTaskAdapter(taskList.getTaskArrayList());
                 recyclerView.setAdapter(mAdapter);
