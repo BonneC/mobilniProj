@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/task_title"
-            android:layout_width="243dp"
+            android:layout_width="237dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
@@ -29,11 +29,22 @@
             card_view:layout_constraintBottom_toTopOf="@+id/task_description"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.625" />
+            card_view:layout_constraintVertical_bias="0.625"
+            android:paddingEnd="10dp" />
+
+        <View
+            android:layout_width="230dp"
+            android:layout_height="3dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorAccent"
+            card_view:layout_constraintBottom_toTopOf="@+id/task_description"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/task_title" />
 
         <TextView
             android:id="@+id/task_description"
-            android:layout_width="245dp"
+            android:layout_width="238dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
