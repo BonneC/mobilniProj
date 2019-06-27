@@ -1,11 +1,13 @@
 package com.example.bonnana.tusky.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bonnana.tusky.R;
@@ -17,7 +19,7 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.Task
     private ArrayList<? extends Task> tasks;
     private View.OnClickListener mOnItemClickListener;
     private View.OnLongClickListener mOnItemLongClickListener;
-    //private View.OnClickListener buttonListener;
+    private View.OnClickListener buttonListener;
 
     public UserTasksAdapter(ArrayList<? extends Task> tasks) {
         this.tasks = tasks;
@@ -33,7 +35,7 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.Task
     @Override
     public void onBindViewHolder(@NonNull TasksViewHolder holder, int position) {
         holder.title.setText(tasks.get(position).getName());
-        //.btn_add.setTag(position);
+        holder.btn_delete.setTag(position);
     }
 
 
@@ -50,26 +52,27 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.Task
         mOnItemLongClickListener = itemClickListener;
     }
 
-//    public void setOnButtonClickListener(View.OnClickListener buttonClickListener) {
-//        buttonListener = buttonClickListener;
-//    }
+    public void setOnButtonClickListener(View.OnClickListener buttonClickListener) {
+        buttonListener = buttonClickListener;
+    }
 
 
     public class TasksViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        //private Button btn_add;
+        private FloatingActionButton btn_delete;
 
         public TasksViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.task_name);
-            //btn_add = v.findViewById(R.id.button_add_task);
+            btn_delete = v.findViewById(R.id.fab_delete);
 
 
-            //btn_add.setOnClickListener(buttonListener);
+            btn_delete.setOnClickListener(buttonListener);
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);
             v.setOnLongClickListener(mOnItemLongClickListener);
+
             //btn_add.setOnClickListener(buttonListener);
 
         }

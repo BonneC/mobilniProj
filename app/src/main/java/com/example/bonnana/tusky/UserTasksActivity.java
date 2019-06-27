@@ -57,6 +57,31 @@ public class UserTasksActivity extends Fragment {
         }
     };
 
+    private View.OnClickListener onButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int pos = (Integer) v.getTag();
+
+            Task task = (Task) taskList.getTaskArrayList().get(pos);
+            int id = Integer.parseInt(task.getId());
+
+            AlertDialog alert = new AlertDialog.Builder(UserTasksActivity.this.getContext())
+                    .setTitle("Delete task?")
+                    .setMessage("Are you sure you want to delete this task?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteTask(id);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+
+            //Toast.makeText(UserTasksActivity.this.getContext(), id, Toast.LENGTH_LONG).show();
+        }
+    };
+
     private View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
@@ -121,6 +146,7 @@ public class UserTasksActivity extends Fragment {
                 recyclerView.setAdapter(mAdapter);
                 ((UserTasksAdapter) mAdapter).setOnItemClickListener(onItemClickListener);
                 ((UserTasksAdapter) mAdapter).setOnItemLongClickListener(onItemLongClickListener);
+                ((UserTasksAdapter) mAdapter).setOnButtonClickListener(onButtonClickListener);
             }
 
             @Override
