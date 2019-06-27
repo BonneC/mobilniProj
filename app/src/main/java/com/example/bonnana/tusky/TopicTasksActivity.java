@@ -3,7 +3,9 @@ package com.example.bonnana.tusky;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -151,6 +153,10 @@ public class TopicTasksActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            sharedPref.edit().remove("idToken").apply();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             Toast.makeText(TopicTasksActivity.this, "Logout", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);

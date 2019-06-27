@@ -107,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            sharedPref.edit().remove("idToken").apply();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);

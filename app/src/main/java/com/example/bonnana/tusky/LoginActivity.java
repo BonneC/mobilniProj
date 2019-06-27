@@ -64,6 +64,14 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // empty
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                login.setEmail(usernameEditText.getText().toString());
+                login.setPassword(passwordEditText.getText().toString());
+
                 loginButton.setEnabled(isDataValid());
 
                 if (validateUsername() != null) {
@@ -72,12 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (validatePassword() != null) {
                     passwordEditText.setError(validatePassword());
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                login.setEmail(usernameEditText.getText().toString());
-                login.setPassword(passwordEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
@@ -117,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
                 editor.commit();
 
-                Toast.makeText(LoginActivity.this, token.getToken(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Successfully logged in!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
