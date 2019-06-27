@@ -1,11 +1,13 @@
 package com.example.bonnana.tusky.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bonnana.tusky.R;
@@ -58,13 +60,13 @@ public class TopicTasksAdapter extends RecyclerView.Adapter<TopicTasksAdapter.Ta
     public class TasksViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView description;
-        private Button btn_add;
+        private FloatingActionButton btn_add;
 
         public TasksViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.task_title);
             description = v.findViewById(R.id.task_description);
-            btn_add = v.findViewById(R.id.button_add_task);
+            btn_add = v.findViewById(R.id.fab_add);
 
 
             btn_add.setOnClickListener(buttonListener);

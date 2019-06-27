@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.bonnana.tusky.adapter.TopicTaskAdapter;
@@ -47,13 +48,24 @@ public class TaskActivity extends AppCompatActivity {
             int id = Integer.parseInt(task.getId());
 
 
-            CheckBox checkBox = (CheckBox) v.findViewById(R.id.chbox_check_task);
+//            CheckBox checkBox = (CheckBox) v.findViewById(R.id.chbox_check_task);
             boolean completed;
 
-            if (checkBox.isChecked()) {
-                completed = true;
-            } else
+            ImageButton imgButton = (ImageButton) v.findViewById(R.id.btn_check_task);
+
+            String tmp = (String) imgButton.getContentDescription();
+            Toast.makeText(TaskActivity.this, tmp, Toast.LENGTH_LONG).show();
+
+            if (task.isCompleted() == 1) {
                 completed = false;
+                task.updateTaskStatus(0);
+                //imgButton.setBackgroundResource(R.drawable.icon_unchecked);
+            } else{
+                completed = true;
+                task.updateTaskStatus(1);
+                //imgButton.setBackgroundResource(R.drawable.icon_checked);
+            }
+
 
             UpdatedTask updated = new UpdatedTask(completed);
 
@@ -62,6 +74,7 @@ public class TaskActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Toast.makeText(TaskActivity.this, "Task Completed", Toast.LENGTH_LONG).show();
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 @Override
