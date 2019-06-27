@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bonnana.tusky.R;
@@ -47,11 +48,14 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView textView;
+        private TextView textView;
+        private ImageView arrow;
 
         public CardViewHolder(View v) {
             super(v);
             textView = v.findViewById(R.id.topic_title);
+            arrow = v.findViewById(R.id.arrow);
+
 
             v.setTag(this);
             v.setOnClickListener(mOnItemClickListener);
