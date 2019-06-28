@@ -53,14 +53,11 @@ public class TaskActivity extends AppCompatActivity {
 
             ImageButton imgButton = (ImageButton) v.findViewById(R.id.btn_check_task);
 
-            String tmp = (String) imgButton.getContentDescription();
-            Toast.makeText(TaskActivity.this, tmp, Toast.LENGTH_LONG).show();
-
             if (task.isCompleted() == 1) {
                 completed = false;
                 task.updateTaskStatus(0);
                 //imgButton.setBackgroundResource(R.drawable.icon_unchecked);
-            } else{
+            } else {
                 completed = true;
                 task.updateTaskStatus(1);
                 //imgButton.setBackgroundResource(R.drawable.icon_checked);
@@ -73,7 +70,12 @@ public class TaskActivity extends AppCompatActivity {
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Toast.makeText(TaskActivity.this, "Task Completed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            TaskActivity.this,
+                            completed ? "Task completed!" : "Task unchecked",
+                            Toast.LENGTH_LONG
+                    ).show();
+
                     mAdapter.notifyDataSetChanged();
                 }
 

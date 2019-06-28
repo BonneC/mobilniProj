@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (token.equals("none")) {
             Intent intent = new Intent(this, LoginActivity.class);
-
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         } else {
             tabLayout = findViewById(R.id.tabs);

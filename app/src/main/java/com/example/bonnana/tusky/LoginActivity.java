@@ -94,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
                 activityContext.login();
             }
             return false;
@@ -127,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Successfully logged in!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override
@@ -166,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
             return "No password entered";
         }
         if (password.length() < 6) {
-            return "Password can't be shorter than 4 characters";
+            return "Password can't be shorter than 6 characters";
         }
         return null;
     }

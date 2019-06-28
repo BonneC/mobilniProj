@@ -51,8 +51,6 @@ public class UserTasksActivity extends Fragment {
             Task task = (Task) taskList.getTaskArrayList().get(position);
             String id = task.getId();
 
-            Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
-
             callExplicitIntent(id);
         }
     };
@@ -170,7 +168,7 @@ public class UserTasksActivity extends Fragment {
 
                 //ArrayList<Task> apiTaskList = response.body().getTaskArrayList();
                 //taskList.setTaskArrayList(apiTaskList);
-                Toast.makeText(UserTasksActivity.this.getContext(), "SUKSES", Toast.LENGTH_LONG).show();
+                Toast.makeText(UserTasksActivity.this.getContext(), "Task Deleted!", Toast.LENGTH_LONG).show();
                 getTasks();
 
             }
