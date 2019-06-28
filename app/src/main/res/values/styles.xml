@@ -10,7 +10,7 @@
     </style>
 
     <style name="MyActionButtonOverflow" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:src">@drawable/icon_settings</item>
+        <item name="android:src">@drawable/icon_settings_scaled</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="android:contentDescription">"Settings"</item>
         <item name="android:padding">10dp</item>
